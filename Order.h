@@ -10,7 +10,7 @@ using namespace std;
 public:
 	Order();
 	~Order();
-	void addItem(string item);
+	void addItem(Item* item);
 
 	void removeItem(int choice);
 
@@ -18,7 +18,7 @@ public:
 
 	void createReceipt();
 
-	vector<string> orderedItems;
+	vector<Item*> orderedItems;
 
 };
 

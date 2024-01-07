@@ -13,21 +13,22 @@ int main()
 
 	while (true)
 	{
-		//outputting to the user the options
-		cout << "1. Display menu \n";
-		cout << "2. Add item to your order \n";
-		cout << "3. Remove item from your order \n";
-		cout << "4. Checkout your order \n";
-		cout << "5. Display a help menu \n";
-		cout << "6. Exit program \n";
+
 
 		int user_input;
 		string filepath = "C:\\Users\\riosm\\Downloads\\menu.csv";
-		menu.createVector(filepath);
+		
 
 		while (true)
 		{
-			cout << "Choose an option from the list: ";
+			cout << "Choose an option from the list: \n";
+			//outputting to the user the options
+			cout << "1. Display menu \n";
+			cout << "2. Add item to your order \n";
+			cout << "3. Remove item from your order \n";
+			cout << "4. Checkout your order \n";
+			cout << "5. Display a help menu \n";
+			cout << "6. Exit program \n";
 			cin >> user_input;
 
 			if (user_input == 1)
@@ -42,9 +43,9 @@ int main()
 				cin >> userChoice;
 				if (userChoice >= 0 && userChoice < menu.itemsOnList.size()) {
 					// Using the at() member function to retrieve the value from the vector
-					cout << userChoice << " is " << menu.itemsOnList.at(userChoice) << endl;
+				cout << userChoice << " is " << menu.itemsOnList[userChoice - 1]->returnName() << endl;
 					//this sets the chosen item variable to the value from the menu vector
-					string chosenItem = menu.itemsOnList.at(userChoice);
+					Item* chosenItem = menu.itemsOnList.at(userChoice - 1);
 					//this then adds it to the ordered items vector
 					order.addItem(chosenItem);
 				}
@@ -65,7 +66,20 @@ int main()
 
 			else if (user_input == 4)
 			{
-				order.createReceipt();
+				for (size_t i = 0; i < order.orderedItems.size(); ++i) {
+					cout << "Your order contains: " << order.orderedItems[i]->returnName() << "£" << order.orderedItems[i]->returnPrice() << endl;
+				}
+				cout << "Your total price is: " << order.calculateTotal() << endl;
+				string userChoice;
+				cout << "Would you like to pay for your order? yes or no " << endl;
+				cin >> userChoice;
+				if (userChoice == "yes")
+				{
+					cout << "Thank you for dining with us today!" << endl;
+					order.createReceipt();
+					return 0;
+				}
+				
 			}
 			else if (user_input == 5)
 			{

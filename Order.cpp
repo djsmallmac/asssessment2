@@ -10,12 +10,11 @@ Order::Order(){}
 
 Order::~Order() {}
 
-void Order::addItem(string item)
+void Order::addItem(Item* item)
 {
 	orderedItems.push_back(item);
-	cout << "Your order contains: " << endl;
-	for (string value : orderedItems) {
-		cout << value << " " << endl;
+	for (size_t i = 0; i < orderedItems.size(); ++i) {
+		cout << "Your order contains: " << orderedItems[i]->returnName() << "£" << orderedItems[i]->returnPrice() << endl;
 	}
 }
 
@@ -28,6 +27,9 @@ void Order::removeItem(int choice)
 	if (choice > 0 && choice <= orderedItems.size())
 	{
 		orderedItems.erase(orderedItems.begin() + choice - 1);
+		for (size_t i = 0; i < orderedItems.size(); ++i) {
+			cout << "Your order contains: " << orderedItems[i]->returnName() << endl;
+		}
 	}
 	else
 	{
@@ -38,9 +40,9 @@ void Order::removeItem(int choice)
 double Order::calculateTotal()
 {
 	double totalPrice = 0.0;
-	//for (const auto& items : orderedItems) {
-		//totalPrice += myItem.returnPrice();
-	//}
+	for (const auto& item : orderedItems) {
+		totalPrice += item->returnPrice();
+	}
 
 	return totalPrice;
 }
