@@ -33,7 +33,8 @@ int main()
 
 			if (user_input == 1)
 			{
-				menu.DisplayFile(filepath);
+				//this outputs the menu 
+				menu.toString(filepath);
 			}
 
 			else if (user_input == 2)
@@ -54,44 +55,61 @@ int main()
 				}
 				
 			}
-
+			//This function is used to remove items from the list
 			else if (user_input == 3)
 			{
+				//outputs the order to the user so they can see which item is to be removed
+				for (size_t i = 0; i < order.orderedItems.size(); ++i) {
+					cout << (i+1) << "." << order.orderedItems[i]->returnName() << endl;
+				}
 				int removeChoice;
 				cout << "enter which item from the order you want to remove: ";
 				cin >> removeChoice;
-				
+				//calls the function which removes the item from the order
 				order.removeItem(removeChoice);
 			}
 
 			else if (user_input == 4)
 			{
+				//outputs the order and the total cost
+				cout << "Your order contains: " << endl;
 				for (size_t i = 0; i < order.orderedItems.size(); ++i) {
-					cout << "Your order contains: " << order.orderedItems[i]->returnName() << "£" << order.orderedItems[i]->returnPrice() << endl;
+					cout << order.orderedItems[i]->returnName() << "$" << order.orderedItems[i]->returnPrice() << endl;
 				}
 				cout << "Your total price is: " << order.calculateTotal() << endl;
+				cout << "Your total savings is: $" << order.discount << endl;
 				string userChoice;
+				//asks the user if they want to checkout their order
 				cout << "Would you like to pay for your order? yes or no " << endl;
 				cin >> userChoice;
 				if (userChoice == "yes")
 				{
 					cout << "Thank you for dining with us today!" << endl;
+					//calls the function which creates a reciept
 					order.createReceipt();
 					return 0;
 				}
 				
 			}
+			//this outputs a help menu to the terminal
 			else if (user_input == 5)
 			{
 				cout << "Help menu \n";
-				cout << "Menu help - the index number of the item is used to display which item is which. To add an item to your order you will have to use this index number to specify which item this is.\n ";
+				cout << "Option one in the menu provides to the user a view of the menu " << endl;
+				cout << "Option two in the menu allows the user to add an item to the menu using the corresponding index inside of the menu" << endl;
+				cout << "Option three in the menu allows the user to remove an item from the selected items using the correponding index number \ninside of the ordered items" << endl;
+				cout << "Option four provides the user their order total and discount if applicable and asks the user if they want to checkout" << endl;
+				cout << "Option five displays the user this ... did you really need to know that" << endl;
+				cout << "Option six exits the program" << endl;
 				break;
 			}
+			//this exits the program
 			else if (user_input == 6)
 			{
 				cout << "Exiting the program \n";
 				return 0;
 			}
+			//error catch
 			else
 			{
 				cout << "Invalid input, try again \n";

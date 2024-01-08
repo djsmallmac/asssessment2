@@ -1,1 +1,5 @@
-total: 0
+Your order: 
+Buffalo wings $3.99
+Buffalo wings $3.99
+Total: $3.99
+Discount: $3.99

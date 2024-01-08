@@ -4,16 +4,15 @@
 
 class Item;
 
-class Menu 
+class Menu
 {
 public:
-	Menu(std::string filepath);
+	//menu constructor and destructor
+	Menu(string filepath);
 	~Menu();
+	void toString(string& filepath);
 
-	void DisplayFile(string& filepath);
-	//void createVector(string filepath);
-	void itemSelect(int & userchoice);
-
+	//vector that holds all values on the menu
 	vector<Item*> itemsOnList;
 };
 

@@ -8,56 +8,65 @@
 
 using namespace std;
 
-Menu::Menu(std::string filepath) {
+Menu::Menu(string filepath) {
 
     ifstream file(filepath);
-    //checks if the program can access the file, if not, throw out this error
+    //checks if the the file is opened if not outputs an error
     if (!file.is_open()) {
         cerr << "Error: Could not open the file " << filepath << endl;
         return;
     }
 
-    
+    //sets an empty variable
     string line = "";
 
-    while (std::getline(file, line)) {
+    while (getline(file, line)) 
+    {
+        //sets a bunch of variables to be overidden
         char itemtype = 'O';
-        std::string name = "";
+        string name = "";
         double price = 0.0;
         int calories = 0;
         bool shareable = false;
-        bool twoForOne = false;
+        bool notTwoForOne = false;
         double abv = 0.0;
         int volume = 0;
 
         int counter = 0;
-        std::string value = "";
+        string value = "";
         for (int i = 0; i <= line.size() - 1; i++) {
+            //if a comma is detected it proceeds wit hthe following code
             if (line[i] == ',' || i >= line.size() - 1) {
+                //if the counter is zero it overwrittes the pre defined itemtype value
                 if (counter == 0)
                 {
                 
                     itemtype = value[0];
+                    //resets the value of value
                     value = "";
                 }
+                //if the counter is one it overwrittes the pre defined name value 
                 else if (counter == 1)
                 {
                 
                     name = value;
                     value = "";
                 }
+                //if the counter is two it overwrittes the pre defined price value
                 else if (counter == 2)
                 {
                  
                     price = atof(value.c_str());
                     value = "";
                 }
+                //if the counter is three it overwrittes the pre defined calories value
                 else if (counter == 3)
                 {
                    
                     calories = atoi(value.c_str()); 
                     value = "";
                 }
+                //if the counter is four it overwrittes the pre defined shareable value
                 else if (counter == 4)
                 {
                     if (value == "y")
@@ -66,44 +75,49 @@ Menu::Menu(std::string filepath) {
                         value = "";
                     } 
                 }
+                //if the counter is five it overwrittes the pre defined two for one value
                 else if (counter == 5)
                 {
-                    if (value == "y")
+                    if (value == "n")
                     {
-
-                        twoForOne = true;
+                        notTwoForOne = true;
                         value = "";
-                    } 
-
+                    }
                 }
+                //if the counter is six it overwrittes the pre defined volume value
                 else if (counter == 6)
                 {
                     volume = atoi(value.c_str());
                     value = "";
                 }
+                //if the counter is seven it overwrittes the pre defined alcohol value
                 else if (counter == 7)
                 {
                     abv = atof(value.c_str());
                     value = "";
                 }
+                //updates the counter
                 counter += 1;
             }
             else
             {
+                //adds to the line
                 value += line[i];
             }
             
         }
         
-
+        //if the item is an appetiser it initializes a new appetiser class with the inputted variables
         if (itemtype == 'a')
         {
-            itemsOnList.push_back(new Appetiser(name, price, calories, shareable, twoForOne));
+            itemsOnList.push_back(new Appetiser(name, price, calories, shareable, notTwoForOne));
         }
+        //if the item is an main course it initializes a new main course class with the inputted variables
         else if (itemtype == 'm')
         {
-            itemsOnList.push_back(new Main(name, price, calories));
+            itemsOnList.push_back(new MainCourse(name, price, calories));
         }
+        //if the item is an beverage it initializes a new beverage class with the inputted variables
         else if (itemtype == 'b')
         {
             itemsOnList.push_back(new Beverage(name, price, calories, abv, volume));
@@ -118,60 +132,28 @@ Menu::Menu(std::string filepath) {
 
 Menu::~Menu() {}
 
-void Menu :: DisplayFile(string& filepath)
+//This outputs the menu to the terminal
+void Menu :: toString(string& filepath)
 {
     ifstream file(filepath);
     string line;
+    cout << "This is the menu: " << endl;
+    cout << "type,   name,price,  calories, shareable, 2-4-1,    volume, abv" << endl;
+    //goes through the file and outputs it to the terminal
     while (getline(file, line)) {
         istringstream ss(line);
         string field;
 
         while (getline(ss, field, ',')) {
-            cout << field << "\t";
+           cout << field << "\t";
         }
 
-        cout << endl;
+       cout << endl;
     }
 
     file.close();
 }
 
-
-//void Menu::createVector(string& filepath)
-//{
-    //ifstream file(filepath);
-    //string line;
-    //while (getline(file, line)) {
-        // Use a stringstream to parse each comma-separated value
-        //istringstream iss(line);
-        //string value;
-
-        //while (getline(iss, value, ',')) {
-            // Add the string value to the vector
-            //itemsOnList.push_back(value);
-        //}
-        //}
-    //file.close();
-
-    // Print the values in the vector
-    //for (const std::string& val : itemsOnList) {
-        //std::cout << val << " ";
-    //}
-    //}
-
-
-
-void Menu::itemSelect(int & userchoice)
-{
-    if (userchoice >= 0 && userchoice < itemsOnList.size()) {
-        // Using the at() member function
-        cout << "Using at(): Element at index " << userchoice << " is " << itemsOnList.at(userchoice) << endl;
-
-    }
-    else {
-        cout << "item selection out of bounds" << endl;
-    }
-}
 
 
 
